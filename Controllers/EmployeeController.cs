@@ -16,9 +16,8 @@ namespace ZoneFranche.Controllers
             this._dbContext = context;
         }
 
-
         [HttpGet]
-        public async Task<List<Employee>> YourMethodName()
+        public async Task<List<Employee>> GetEmployees()
         {
             return await _dbContext.Employees.ToListAsync();
         }
