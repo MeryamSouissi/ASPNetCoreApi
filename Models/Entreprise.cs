@@ -7,5 +7,6 @@
         public string heureDeTravail { get; set; }
         public string email { get; set; }
         public string numeroDirecteur { get; set; }
+        public string description { get; set; }
     }
 }

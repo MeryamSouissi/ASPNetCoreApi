@@ -3,6 +3,8 @@ using ZoneFranche.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 builder.Services.AddDbContext<SmsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SmsDbContext")));
 
@@ -12,6 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -25,5 +32,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
