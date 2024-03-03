@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZoneFranche.Data;
 
@@ -10,9 +11,11 @@ using ZoneFranche.Data;
 namespace ZoneFranche.Migrations
 {
     [DbContext(typeof(SmsDbContext))]
-    partial class SmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240219091345_ModifiedPermissions")]
+    partial class ModifiedPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +74,6 @@ namespace ZoneFranche.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("idLogin")
-                        .HasColumnType("int");
-
                     b.Property<string>("nom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -87,8 +87,6 @@ namespace ZoneFranche.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("idLogin");
 
                     b.ToTable("Employees");
                 });
@@ -146,13 +144,26 @@ namespace ZoneFranche.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("type")
+                    b.HasKey("id");
+
+                    b.ToTable("Logins");
+                });
+
+            modelBuilder.Entity("ZoneFranche.Models.Permission", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("value")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Logins");
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("ZoneFranche.Models.Visiteur", b =>
@@ -198,17 +209,6 @@ namespace ZoneFranche.Migrations
                         .IsRequired();
 
                     b.Navigation("Visiteur");
-                });
-
-            modelBuilder.Entity("ZoneFranche.Models.Employee", b =>
-                {
-                    b.HasOne("ZoneFranche.Models.Login", "Login")
-                        .WithMany()
-                        .HasForeignKey("idLogin")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Login");
                 });
 
             modelBuilder.Entity("ZoneFranche.Models.Visiteur", b =>

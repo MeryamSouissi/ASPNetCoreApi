@@ -5,14 +5,14 @@
 namespace ZoneFranche.Migrations
 {
     /// <inheritdoc />
-    public partial class InitailCreate : Migration
+    public partial class AddedtypesforLogins : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "description",
-                table: "Entreprises",
+                name: "type",
+                table: "Logins",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -22,8 +22,8 @@ namespace ZoneFranche.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "description",
-                table: "Entreprises");
+                name: "type",
+                table: "Logins");
         }
     }
 }

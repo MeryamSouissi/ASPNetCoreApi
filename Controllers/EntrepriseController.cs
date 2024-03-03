@@ -24,7 +24,7 @@ namespace ZoneFranche.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Entreprise>> GetEntreprise(string id)
+        public async Task<ActionResult<Entreprise>> GetEntreprise(int id)
         {
             var oneEntreprise = await _dbContext.Entreprises.FindAsync(id);
 
@@ -36,7 +36,7 @@ namespace ZoneFranche.Controllers
             return oneEntreprise;
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Entreprise>> DeleteEntreprise(string id)
+        public async Task<ActionResult<Entreprise>> DeleteEntreprise(int id)
         {
             var oneEntreprise = await _dbContext.Entreprises.FindAsync(id);
             if (oneEntreprise == null)
@@ -49,13 +49,13 @@ namespace ZoneFranche.Controllers
 
             return NoContent();
         }
-        private bool entrepExists(string id)
+        private bool entrepExists(int id)
         {
             return _dbContext.Entreprises.Any(e => e.id == id);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEntreprise(string id, Entreprise entrep)
+        public async Task<IActionResult> PutEntreprise(int id, Entreprise entrep)
         {
             if (id != entrep.id)
             {

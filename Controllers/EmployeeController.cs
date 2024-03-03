@@ -20,13 +20,13 @@ namespace ZoneFranche.Controllers
         [HttpGet]
         public async Task<List<Employee>> GetEmployees()
         {
-            return await _dbContext.Employees.ToListAsync();
+            return await _dbContext.Employees.Include(d => d.Login).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployeeById(string id)
+        public async Task<ActionResult<Employee>> GetEmployeeById(int id)
         {
-            var oneEmployee = await _dbContext.Employees.FindAsync(id);
+            var oneEmployee = await _dbContext.Employees.Include(d => d.Login).FirstOrDefaultAsync(d => d.id == id);
 
             if (oneEmployee == null)
             {
@@ -37,7 +37,7 @@ namespace ZoneFranche.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(string id)
+        public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         {
             var oneEmployee = await _dbContext.Employees.FindAsync(id);
             if (oneEmployee == null)
@@ -52,13 +52,13 @@ namespace ZoneFranche.Controllers
         }
 
 
-        private bool empExists(string id)
+        private bool empExists(int id)
         {
             return _dbContext.Employees.Any(e => e.id == id);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(string id, Employee emp)
+        public async Task<IActionResult> PutEmployee(int id, Employee emp)
         {
             if (id != emp.id)
             {
@@ -99,10 +99,6 @@ namespace ZoneFranche.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (empExists(emp.id))
-                {
-                    return Conflict();
-                }
             }
             return NoContent();
         }

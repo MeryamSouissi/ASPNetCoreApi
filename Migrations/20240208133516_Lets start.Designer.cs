@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZoneFranche.Data;
 
@@ -10,9 +11,11 @@ using ZoneFranche.Data;
 namespace ZoneFranche.Migrations
 {
     [DbContext(typeof(SmsDbContext))]
-    partial class SmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240208133516_Lets start")]
+    partial class Letsstart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +74,6 @@ namespace ZoneFranche.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("idLogin")
-                        .HasColumnType("int");
-
                     b.Property<string>("nom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -87,8 +87,6 @@ namespace ZoneFranche.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("idLogin");
 
                     b.ToTable("Employees");
                 });
@@ -146,10 +144,6 @@ namespace ZoneFranche.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("id");
 
                     b.ToTable("Logins");
@@ -167,8 +161,9 @@ namespace ZoneFranche.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("idLogin")
-                        .HasColumnType("int");
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("nom")
                         .IsRequired()
@@ -184,8 +179,6 @@ namespace ZoneFranche.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("idLogin");
-
                     b.ToTable("Visiteurs");
                 });
 
@@ -198,28 +191,6 @@ namespace ZoneFranche.Migrations
                         .IsRequired();
 
                     b.Navigation("Visiteur");
-                });
-
-            modelBuilder.Entity("ZoneFranche.Models.Employee", b =>
-                {
-                    b.HasOne("ZoneFranche.Models.Login", "Login")
-                        .WithMany()
-                        .HasForeignKey("idLogin")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Login");
-                });
-
-            modelBuilder.Entity("ZoneFranche.Models.Visiteur", b =>
-                {
-                    b.HasOne("ZoneFranche.Models.Login", "Login")
-                        .WithMany()
-                        .HasForeignKey("idLogin")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Login");
                 });
 #pragma warning restore 612, 618
         }
